@@ -31,3 +31,22 @@ export type Status = (typeof STATUSES)[number]["value"];
 export const ITEM_TTL_DAYS = 30;
 export const MAX_PHOTOS = 5;
 export const PHOTO_BUCKET = "item-photos";
+
+const byValue = <T extends { value: string }>(list: readonly T[]) =>
+  Object.fromEntries(list.map((x) => [x.value, x])) as Record<T["value"], T>;
+
+const categoryMap = byValue(CATEGORIES);
+const conditionMap = byValue(CONDITIONS);
+
+export const isCategory = (v: unknown): v is Category => typeof v === "string" && Object.hasOwn(categoryMap, v);
+export const isCondition = (v: unknown): v is Condition => typeof v === "string" && Object.hasOwn(conditionMap, v);
+export const isStatus = (v: unknown): v is Status =>
+  typeof v === "string" && STATUSES.some((s) => s.value === v);
+
+export const categoryLabel = (c: Category) => categoryMap[c].label;
+export const categoryIcon = (c: Category) => categoryMap[c].icon;
+export const conditionLabel = (c: Condition) => conditionMap[c].label;
+
+/** Fundo do placeholder quando o item não tem foto (alternando os tons dos protótipos). */
+export const placeholderBg = (c: Category) =>
+  ["eletrodomesticos", "esportes", "brinquedos"].includes(c) ? "#FEF3EB" : "#EEF7F1";

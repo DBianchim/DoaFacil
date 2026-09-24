@@ -101,33 +101,14 @@ Fotos: bucket privado `item-photos`, servidas via signed URLs geradas no servido
 
 `design/Cartaz.dc.html` é o cartaz A4 com QR Code, para impressão (pode virar a página `/cartaz` com o QR gerado pela lib `qrcode`).
 
-## Middleware do código do condomínio
+## Acesso pelo código do condomínio (`src/proxy.ts`)
 
-```ts
-// middleware.ts
-import { NextResponse, type NextRequest } from 'next/server';
+No Next 16 o middleware se chama **proxy** (`src/proxy.ts`). Regras:
 
-const CODIGO = process.env.CONDO_CODE!;
-const VERSAO = process.env.CONDO_CODE_VERSION!; // trocar invalida todos os acessos
-
-export function middleware(req: NextRequest) {
-  const url = req.nextUrl;
-  if (url.pathname === '/entrar') {
-    if (url.searchParams.get('c')?.toUpperCase() === CODIGO) {
-      const res = NextResponse.redirect(new URL('/', req.url));
-      res.cookies.set('condo', VERSAO, { httpOnly: true, secure: true, sameSite: 'lax', maxAge: 60 * 60 * 24 * 180 });
-      return res;
-    }
-    return NextResponse.next();
-  }
-  if (req.cookies.get('condo')?.value !== VERSAO) {
-    return NextResponse.redirect(new URL('/entrar', req.url));
-  }
-  return NextResponse.next();
-}
-
-export const config = { matcher: ['/((?!_next|favicon.ico|robots.txt).*)'] };
-```
+- `/entrar?c=CODIGO` válido grava o cookie `condo` (httpOnly, 6 meses) e redireciona para `?next=` (só caminhos internos) ou `/`. O código é comparado sem diferenciar maiúsculas, espaços e hífens.
+- Sem cookie válido: páginas redirecionam para `/entrar?next=<caminho>`; rotas `/api/*` respondem 401.
+- **O cookie nunca guarda o `CONDO_CODE_VERSION` puro** (seria forjável criando `condo=v1` à mão). Ele guarda `HMAC-SHA256(chave = código normalizado, "doafacil:condo:" + versão)` — ver `src/lib/condo-token.ts`. Trocar o código **ou** a versão invalida todos os acessos.
+- O proxy não basta: páginas, Server Actions e Route Handlers chamam `requireCondoAccess()` / `hasCondoAccess()` de `src/lib/condo.ts`.
 
 ## Link de WhatsApp com mensagem pronta
 

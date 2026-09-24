@@ -1,7 +1,10 @@
 import { ButtonLink, Logo } from "@/components/ui";
+import { requireCondoAccess } from "@/lib/condo";
 
 // Provisório: a Home real entra na etapa 4.
-export default function Home() {
+export default async function Home() {
+  await requireCondoAccess();
+
   return (
     <main className="flex flex-1 flex-col items-center justify-center gap-6 px-4 text-center">
       <Logo />

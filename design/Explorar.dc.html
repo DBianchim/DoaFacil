@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Explorar Doações — Doa Fácil</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#F7F8F5;color:#1A2B1A;}
+*{box-sizing:border-box;}
+a{color:#2D6A4F;text-decoration:none;}
+a:hover{color:#245B43;}
+button{cursor:pointer;font-family:inherit;border:none;}
+input,select{font-family:inherit;}
+</style>
+</helmet>
+<div style="width:1280px;min-height:900px;">
+
+  <!-- HEADER -->
+  <header style="background:#fff;border-bottom:1px solid #E2EBE2;padding:0 56px;display:flex;align-items:center;height:68px;gap:32px;position:sticky;top:0;z-index:100;">
+    <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+      <div style="width:36px;height:36px;background:#2D6A4F;border-radius:10px;display:flex;align-items:center;justify-content:center;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3C12 3 5 8 5 13.5C5 17.09 8.13 20 12 20C15.87 20 19 17.09 19 13.5C19 8 12 3 12 3Z" fill="#D8F3DC"/><path d="M12 7C12 7 9 10 9 13C9 14.65 10.34 16 12 16C13.66 16 15 14.65 15 13C15 10 12 7 12 7Z" fill="#fff"/></svg>
+      </div>
+      <span style="font-size:18px;font-weight:800;color:#1A2B1A;letter-spacing:-0.3px;">Doa Fácil</span>
+    </div>
+    <nav style="display:flex;gap:4px;flex:1;">
+      <a href="Home.dc.html" style="padding:8px 16px;border-radius:8px;font-size:14px;font-weight:500;color:#5C6B5C;">Início</a>
+      <a href="#" style="padding:8px 16px;border-radius:8px;font-size:14px;font-weight:600;color:#2D6A4F;background:#D8F3DC;">Explorar</a>
+      <a href="MinhasDoacoes.dc.html" style="padding:8px 16px;border-radius:8px;font-size:14px;font-weight:500;color:#5C6B5C;">Minhas Doações</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <a href="Publicar.dc.html" style="display:flex;align-items:center;gap:8px;background:#2D6A4F;color:#fff;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2V14M2 8H14" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
+        Publicar doação
+      </a>
+    </div>
+  </header>
+
+  <!-- SEARCH + FILTER BAR -->
+  <div style="background:#fff;border-bottom:1px solid #E2EBE2;padding:20px 56px;">
+    <div style="display:flex;gap:12px;align-items:center;">
+      <div style="flex:1;display:flex;align-items:center;gap:12px;background:#F7F8F5;border:1.5px solid #E2EBE2;border-radius:10px;padding:0 16px;height:44px;max-width:440px;">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="5.5" stroke="#8FA08F" stroke-width="1.5"/><path d="M15.5 15.5L13 13" stroke="#8FA08F" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <input type="text" placeholder="Buscar itens..." style="border:none;outline:none;width:100%;font-size:14px;color:#1A2B1A;background:transparent;" />
+      </div>
+      <!-- Filters -->
+      <div style="display:flex;gap:8px;align-items:center;">
+        <select style="appearance:none;border:1.5px solid #E2EBE2;background:#fff;border-radius:8px;padding:0 32px 0 12px;height:44px;font-size:13px;font-weight:500;color:#5C6B5C;cursor:pointer;outline:none;">
+          <option>Categoria</option>
+        </select>
+        <select style="appearance:none;border:1.5px solid #E2EBE2;background:#fff;border-radius:8px;padding:0 32px 0 12px;height:44px;font-size:13px;font-weight:500;color:#5C6B5C;cursor:pointer;outline:none;">
+          <option>Condição</option>
+        </select>
+        <select style="appearance:none;border:1.5px solid #E2EBE2;background:#fff;border-radius:8px;padding:0 32px 0 12px;height:44px;font-size:13px;font-weight:500;color:#5C6B5C;cursor:pointer;outline:none;">
+          <option>Status</option>
+        </select>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+        <span style="font-size:13px;color:#8FA08F;">Ordenar por:</span>
+        <select style="appearance:none;border:1.5px solid #E2EBE2;background:#fff;border-radius:8px;padding:0 32px 0 12px;height:44px;font-size:13px;font-weight:500;color:#1A2B1A;cursor:pointer;outline:none;">
+          <option>Mais recentes</option>
+        </select>
+      </div>
+    </div>
+    <!-- Category pills -->
+    <div style="display:flex;gap:8px;margin-top:14px;align-items:center;">
+      <sc-for list="{{catPills}}" as="p" hint-placeholder-count="8">
+        <button style="padding:6px 14px;border-radius:100px;border:1.5px solid {{p.border}};background:{{p.bg}};font-size:12px;font-weight:600;color:{{p.color}};">{{p.label}}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- CONTENT AREA -->
+  <div style="padding:28px 56px 48px;">
+    <!-- Result count -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+      <p style="margin:0;font-size:14px;color:#5C6B5C;"><strong style="color:#1A2B1A;">166 itens</strong> encontrados</p>
+      <div style="display:flex;gap:8px;">
+        <button style="width:36px;height:36px;border-radius:8px;border:1.5px solid #E2EBE2;background:#fff;display:flex;align-items:center;justify-content:center;">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="#5C6B5C" stroke-width="1.5"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="#5C6B5C" stroke-width="1.5"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="#5C6B5C" stroke-width="1.5"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="#5C6B5C" stroke-width="1.5"/></svg>
+        </button>
+        <button style="width:36px;height:36px;border-radius:8px;border:1.5px solid #2D6A4F;background:#D8F3DC;display:flex;align-items:center;justify-content:center;">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H14M2 12H14" stroke="#2D6A4F" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ITEMS GRID -->
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;">
+      <sc-for list="{{items}}" as="item" hint-placeholder-count="9">
+        <a href="Detalhes.dc.html" style="display:flex;flex-direction:column;background:#fff;border-radius:16px;overflow:hidden;border:1px solid #E2EBE2;">
+          <div style="height:196px;background:{{item.imgBg}};display:flex;align-items:center;justify-content:center;font-size:60px;position:relative;flex-shrink:0;">
+            <span>{{item.emoji}}</span>
+            <span style="position:absolute;top:10px;left:10px;background:{{item.badgeBg}};color:{{item.badgeColor}};font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;text-transform:uppercase;letter-spacing:0.5px;">{{item.status}}</span>
+            <sc-if value="{{item.donated}}" hint-placeholder-val="false">
+              <div style="position:absolute;inset:0;background:rgba(247,248,245,0.88);display:flex;align-items:center;justify-content:center;">
+                <span style="font-size:14px;font-weight:700;color:#8FA08F;text-align:center;padding:0 16px;">Item doado com sucesso ✓</span>
+              </div>
+            </sc-if>
+          </div>
+          <div style="padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:8px;">
+            <span style="font-size:15px;font-weight:700;color:#1A2B1A;line-height:1.3;">{{item.name}}</span>
+            <p style="margin:0;font-size:13px;color:#5C6B5C;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{item.desc}}</p>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <span style="background:#F7F8F5;color:#5C6B5C;font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px;">{{item.cat}}</span>
+              <span style="background:#FEF3EB;color:#E07B39;font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px;">{{item.cond}}</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;padding-top:10px;border-top:1px solid #F0F4F0;">
+              <span style="font-size:12px;color:#8FA08F;">{{item.date}}</span>
+              <a href="Detalhes.dc.html" style="font-size:12px;font-weight:600;color:#2D6A4F;display:flex;align-items:center;gap:4px;">
+                Ver detalhes <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M5 4L9.5 8L5 12" stroke="#2D6A4F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+
+    <!-- PAGINATION -->
+    <div style="display:flex;justify-content:center;gap:8px;margin-top:40px;align-items:center;">
+      <button style="width:36px;height:36px;border-radius:8px;border:1.5px solid #E2EBE2;background:#fff;color:#5C6B5C;font-size:13px;font-weight:600;">‹</button>
+      <sc-for list="{{pages}}" as="pg" hint-placeholder-count="5">
+        <button style="width:36px;height:36px;border-radius:8px;border:1.5px solid {{pg.border}};background:{{pg.bg}};color:{{pg.color}};font-size:13px;font-weight:600;">{{pg.n}}</button>
+      </sc-for>
+      <button style="width:36px;height:36px;border-radius:8px;border:1.5px solid #E2EBE2;background:#fff;color:#5C6B5C;font-size:13px;font-weight:600;">›</button>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      catPills: [
+        { label:"Todos",            bg:"#D8F3DC", border:"#52B788", color:"#2D6A4F" },
+        { label:"Móveis",           bg:"#fff",    border:"#E2EBE2", color:"#5C6B5C" },
+        { label:"Eletrodomésticos", bg:"#fff",    border:"#E2EBE2", color:"#5C6B5C" },
+        { label:"Roupas",           bg:"#fff",    border:"#E2EBE2", color:"#5C6B5C" },
+        { label:"Livros",           bg:"#fff",    border:"#E2EBE2", color:"#5C6B5C" },
+        { label:"Brinquedos",       bg:"#fff",    border:"#E2EBE2", color:"#5C6B5C" },
+        { label:"Plantas",          bg:"#fff",    border:"#E2EBE2", color:"#5C6B5C" },
+        { label:"Outros",           bg:"#fff",    border:"#E2EBE2", color:"#5C6B5C" }
+      ],
+      items: [
+        { name:"Mesa de Escritório em L",    emoji:"🗄️", imgBg:"#EEF7F1", cat:"Móveis",         cond:"Boa condição", status:"Disponível", badgeBg:"#D8F3DC", badgeColor:"#2D6A4F", date:"Hoje, 14h",     desc:"Mesa em L cor carvalho, usada por 2 anos. Ótima para home office. Leve no bloco A.",    donated:false },
+        { name:"Bicicleta Infantil Aro 16",  emoji:"🚲", imgBg:"#FEF3EB", cat:"Esportes",       cond:"Usada",        status:"Disponível", badgeBg:"#D8F3DC", badgeColor:"#2D6A4F", date:"Hoje, 09h",     desc:"Bicicleta com rodinhas incluídas. Criança cresceu e não usa mais. Bloco B.",           donated:false },
+        { name:"Livros de Culinária (5 un)", emoji:"📚", imgBg:"#EEF7F1", cat:"Livros",         cond:"Ótima",        status:"Reservado",  badgeBg:"#FEF3EB", badgeColor:"#E07B39", date:"Ontem, 18h",    desc:"5 livros de culinária, com receitas de vários países. Todos em ótimo estado.",         donated:false },
+        { name:"Cadeira de Escritório",      emoji:"🪑", imgBg:"#F7F8F5", cat:"Móveis",         cond:"Boa condição", status:"Disponível", badgeBg:"#D8F3DC", badgeColor:"#2D6A4F", date:"2 dias atrás",  desc:"Cadeira giratória com regulagem de altura. Substituída por modelo novo. Bloco A.",     donated:false },
+        { name:"Liquidificador Mondial",     emoji:"🥤", imgBg:"#FEF3EB", cat:"Eletrodomésticos",cond:"Bom estado",  status:"Disponível", badgeBg:"#D8F3DC", badgeColor:"#2D6A4F", date:"3 dias atrás",  desc:"Liquidificador 500W com 3 velocidades. Funcionando perfeitamente, doado por upgrade.",   donated:false },
+        { name:"Roupa Infantil Lote (0–2a)", emoji:"👕", imgBg:"#EEF7F1", cat:"Roupas",         cond:"Usadas",       status:"Doado",      badgeBg:"#E2EBE2", badgeColor:"#8FA08F", date:"5 dias atrás",  desc:"Lote com 20 peças infantis 0 a 2 anos. Bebê cresceu e não usa mais. Bem conservadas.",  donated:true  },
+        { name:"Vaso de Samambaia Grande",   emoji:"🌿", imgBg:"#EEF7F1", cat:"Plantas",        cond:"Ótima",        status:"Disponível", badgeBg:"#D8F3DC", badgeColor:"#2D6A4F", date:"6 dias atrás",  desc:"Samambaia com vaso cerâmica bege. Planta saudável e bem cuidada. Retirada no bloco C.", donated:false },
+        { name:"Jogo de Panelas Tramontina", emoji:"🍳", imgBg:"#FEF3EB", cat:"Eletrodomésticos",cond:"Boa condição", status:"Reservado",  badgeBg:"#FEF3EB", badgeColor:"#E07B39", date:"1 semana",     desc:"Jogo com 4 panelas e 1 frigideira. Antiaderente em bom estado.",                       donated:false },
+        { name:"Estante de Madeira 5 Pr.",   emoji:"📦", imgBg:"#F7F8F5", cat:"Móveis",         cond:"Boa condição", status:"Disponível", badgeBg:"#D8F3DC", badgeColor:"#2D6A4F", date:"1 semana",     desc:"Estante cor pinho, 5 prateleiras, 180cm altura. Desmontada para facilitar transporte.", donated:false }
+      ],
+      pages: [
+        { n:"1", bg:"#2D6A4F", border:"#2D6A4F", color:"#fff" },
+        { n:"2", bg:"#fff",    border:"#E2EBE2",  color:"#5C6B5C" },
+        { n:"3", bg:"#fff",    border:"#E2EBE2",  color:"#5C6B5C" },
+        { n:"4", bg:"#fff",    border:"#E2EBE2",  color:"#5C6B5C" },
+        { n:"5", bg:"#fff",    border:"#E2EBE2",  color:"#5C6B5C" }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

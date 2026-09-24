@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Detalhes da Doação — Doa Fácil</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#F7F8F5;color:#1A2B1A;}
+*{box-sizing:border-box;}
+a{color:#2D6A4F;text-decoration:none;}
+a:hover{color:#245B43;}
+button{cursor:pointer;font-family:inherit;border:none;}
+</style>
+</helmet>
+<div style="width:1280px;min-height:960px;">
+
+  <!-- HEADER -->
+  <header style="background:#fff;border-bottom:1px solid #E2EBE2;padding:0 56px;display:flex;align-items:center;height:68px;gap:32px;position:sticky;top:0;z-index:100;">
+    <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+      <div style="width:36px;height:36px;background:#2D6A4F;border-radius:10px;display:flex;align-items:center;justify-content:center;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3C12 3 5 8 5 13.5C5 17.09 8.13 20 12 20C15.87 20 19 17.09 19 13.5C19 8 12 3 12 3Z" fill="#D8F3DC"/><path d="M12 7C12 7 9 10 9 13C9 14.65 10.34 16 12 16C13.66 16 15 14.65 15 13C15 10 12 7 12 7Z" fill="#fff"/></svg>
+      </div>
+      <span style="font-size:18px;font-weight:800;color:#1A2B1A;letter-spacing:-0.3px;">Doa Fácil</span>
+    </div>
+    <nav style="display:flex;gap:4px;flex:1;">
+      <a href="Home.dc.html" style="padding:8px 16px;border-radius:8px;font-size:14px;font-weight:500;color:#5C6B5C;">Início</a>
+      <a href="Explorar.dc.html" style="padding:8px 16px;border-radius:8px;font-size:14px;font-weight:500;color:#5C6B5C;">Explorar</a>
+      <a href="MinhasDoacoes.dc.html" style="padding:8px 16px;border-radius:8px;font-size:14px;font-weight:500;color:#5C6B5C;">Minhas Doações</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <a href="Publicar.dc.html" style="display:flex;align-items:center;gap:8px;background:#2D6A4F;color:#fff;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2V14M2 8H14" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
+        Publicar doação
+      </a>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <div style="padding:20px 56px 0;display:flex;align-items:center;gap:8px;">
+    <a href="Home.dc.html" style="font-size:13px;color:#8FA08F;">Início</a>
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M5 4L9.5 8L5 12" stroke="#8FA08F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    <a href="Explorar.dc.html" style="font-size:13px;color:#8FA08F;">Explorar</a>
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M5 4L9.5 8L5 12" stroke="#8FA08F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    <span style="font-size:13px;color:#1A2B1A;font-weight:600;">Mesa de Escritório em L</span>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main style="padding:28px 56px 64px;display:grid;grid-template-columns:1fr 420px;gap:48px;align-items:start;">
+
+    <!-- LEFT: Gallery + Description -->
+    <div style="display:flex;flex-direction:column;gap:24px;">
+
+      <!-- Main Image -->
+      <div style="background:#EEF7F1;border-radius:20px;height:420px;display:flex;align-items:center;justify-content:center;font-size:120px;border:1px solid #E2EBE2;">🗄️</div>
+
+      <!-- Thumbnail Row -->
+      <div style="display:flex;gap:12px;">
+        <sc-for list="{{thumbs}}" as="t" hint-placeholder-count="4">
+          <div style="width:90px;height:72px;border-radius:12px;background:{{t.bg}};border:2px solid {{t.border}};display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;flex-shrink:0;">{{t.emoji}}</div>
+        </sc-for>
+      </div>
+
+      <!-- Description -->
+      <div style="background:#fff;border:1px solid #E2EBE2;border-radius:20px;padding:28px;">
+        <h2 style="margin:0 0 16px;font-size:18px;font-weight:700;color:#1A2B1A;">Descrição</h2>
+        <p style="margin:0 0 16px;font-size:14px;color:#5C6B5C;line-height:1.75;">Mesa em formato L, cor carvalho, medindo 160×140 cm. Usada por aproximadamente 2 anos em home office. Está em ótima condição, sem arranhões ou manchas. Acompanha todos os parafusos originais para remontagem.</p>
+        <p style="margin:0;font-size:14px;color:#5C6B5C;line-height:1.75;">Ideal para quem precisa de espaço de trabalho amplo. Pode ser desmontada para facilitar o transporte. O morador responsável pode auxiliar na desmontagem se necessário.</p>
+      </div>
+
+      <!-- Pickup Info -->
+      <div style="background:#D8F3DC;border:1px solid #B7DFC7;border-radius:20px;padding:24px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <div style="width:36px;height:36px;background:#2D6A4F;border-radius:10px;display:flex;align-items:center;justify-content:center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M17.657 16.657L13.414 20.9C12.634 21.68 11.366 21.68 10.586 20.9L6.343 16.657C4.231 14.545 4.231 11.107 6.343 9C8.455 6.893 11.893 6.893 14 9C16.107 11.107 16.107 14.545 14 16.657" stroke="#fff" stroke-width="1.5"/><circle cx="12" cy="12" r="2.5" stroke="#fff" stroke-width="1.5"/></svg>
+          </div>
+          <h3 style="margin:0;font-size:15px;font-weight:700;color:#1A2B1A;">Informações de retirada</h3>
+        </div>
+        <p style="margin:0;font-size:13px;color:#2D6A4F;line-height:1.65;">A retirada é combinada diretamente com o doador pelo contato que ele escolheu. O item está no Bloco A. Disponível para retirada nos finais de semana entre 09h e 17h, ou durante a semana a partir das 18h.</p>
+      </div>
+    </div>
+
+    <!-- RIGHT: Item Info + CTA -->
+    <div style="display:flex;flex-direction:column;gap:16px;position:sticky;top:88px;">
+
+      <!-- Status Badge -->
+      <div>
+        <span style="display:inline-flex;align-items:center;gap:8px;background:#D8F3DC;color:#2D6A4F;font-size:13px;font-weight:700;padding:6px 14px;border-radius:100px;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#2D6A4F;display:inline-block;"></span>
+          Item disponível
+        </span>
+      </div>
+
+      <!-- Item Title + Category -->
+      <div>
+        <h1 style="margin:0 0 10px;font-size:28px;font-weight:800;color:#1A2B1A;letter-spacing:-0.5px;line-height:1.2;">Mesa de Escritório em L</h1>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span style="background:#F7F8F5;color:#5C6B5C;font-size:13px;font-weight:600;padding:5px 12px;border-radius:100px;">🪑 Móveis</span>
+          <span style="background:#FEF3EB;color:#E07B39;font-size:13px;font-weight:600;padding:5px 12px;border-radius:100px;">Boa condição</span>
+        </div>
+      </div>
+
+      <!-- Details List -->
+      <div style="background:#fff;border:1px solid #E2EBE2;border-radius:16px;overflow:hidden;">
+        <sc-for list="{{details}}" as="d" hint-placeholder-count="5">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid #F0F4F0;">
+            <span style="font-size:13px;color:#8FA08F;font-weight:500;">{{d.label}}</span>
+            <span style="font-size:13px;color:#1A2B1A;font-weight:600;">{{d.value}}</span>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- Donor Info -->
+      <div style="background:#fff;border:1px solid #E2EBE2;border-radius:16px;padding:20px;display:flex;align-items:center;gap:14px;">
+        <div style="width:44px;height:44px;border-radius:50%;background:#D8F3DC;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#2D6A4F;flex-shrink:0;">R</div>
+        <div style="flex:1;">
+          <div style="font-size:14px;font-weight:700;color:#1A2B1A;">Doado por Ricardo</div>
+          <div style="font-size:12px;color:#5C6B5C;margin-top:2px;">Morador do Bloco A</div>
+          <div style="display:flex;gap:6px;margin-top:8px;">
+            <span style="background:#F7F8F5;border:1px solid #E2EBE2;color:#5C6B5C;font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px;">WhatsApp</span>
+            <span style="background:#F7F8F5;border:1px solid #E2EBE2;color:#5C6B5C;font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px;">E-mail</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <a href="ModalContato.dc.html" style="width:100%;height:52px;background:#2D6A4F;color:#fff;border-radius:12px;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:10px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61C20.33 4.1 19.72 3.69 19.04 3.42C18.36 3.15 17.63 3 16.9 3C16.17 3 15.45 3.15 14.77 3.42C14.09 3.69 13.47 4.1 12.97 4.61L12 5.58L11.03 4.61C10.02 3.6 8.65 3 7.1 3C5.55 3 4.18 3.6 3.17 4.61C2.16 5.62 1.56 6.99 1.56 8.54C1.56 10.09 2.16 11.46 3.17 12.47L12 21.3L20.83 12.47C21.34 11.96 21.75 11.35 22.02 10.67C22.29 9.99 22.44 9.27 22.44 8.54C22.44 7.81 22.29 7.09 22.02 6.41C21.75 5.72 21.34 5.12 20.83 4.61H20.84Z" fill="#fff"/></svg>
+        Tenho interesse
+      </a>
+      <p style="margin:0;font-size:12px;color:#5C6B5C;text-align:center;line-height:1.55;">O contato do doador aparece após o clique.<br>Combine a retirada diretamente com ele.</p>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid #E2EBE2;">
+        <span style="font-size:12px;color:#8FA08F;">Expira em 25 dias</span>
+        <a href="#" style="font-size:12px;font-weight:600;color:#B42318;display:flex;align-items:center;gap:5px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 21V4M5 4H17L15 8.5L17 13H5" stroke="#B42318" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Denunciar anúncio
+        </a>
+      </div>
+    </div>
+  </main>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":960}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      thumbs: [
+        { emoji:"🗄️", bg:"#D8F3DC", border:"#52B788" },
+        { emoji:"📐", bg:"#F7F8F5", border:"#E2EBE2" },
+        { emoji:"🔩", bg:"#F7F8F5", border:"#E2EBE2" },
+        { emoji:"📦", bg:"#F7F8F5", border:"#E2EBE2" }
+      ],
+      details: [
+        { label:"Categoria",     value:"Móveis" },
+        { label:"Condição",      value:"Boa condição" },
+        { label:"Publicado em",  value:"18 de set. de 2026" },
+        { label:"Localização",   value:"Bloco A" },
+        { label:"Viram o contato", value:"7 vizinhos" }
+      ],
+      stars: [1,2,3,4,5]
+    };
+  }
+}
+</script>
+</body>
+</html>

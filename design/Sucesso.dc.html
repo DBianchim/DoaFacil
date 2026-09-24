@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Doação publicada — Doa Fácil</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#F7F8F5;color:#1A2B1A;}
+*{box-sizing:border-box;}
+a{color:#2D6A4F;text-decoration:none;}
+a:hover{color:#245B43;}
+button{cursor:pointer;font-family:inherit;border:none;}
+input{font-family:inherit;}
+</style>
+</helmet>
+<div style="width:1280px;min-height:860px;">
+
+  <header style="background:#fff;border-bottom:1px solid #E2EBE2;padding:0 56px;display:flex;align-items:center;height:68px;gap:10px;">
+    <div style="width:36px;height:36px;background:#2D6A4F;border-radius:10px;display:flex;align-items:center;justify-content:center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3C12 3 5 8 5 13.5C5 17.09 8.13 20 12 20C15.87 20 19 17.09 19 13.5C19 8 12 3 12 3Z" fill="#D8F3DC"/><path d="M12 7C12 7 9 10 9 13C9 14.65 10.34 16 12 16C13.66 16 15 14.65 15 13C15 10 12 7 12 7Z" fill="#fff"/></svg>
+    </div>
+    <span style="font-size:18px;font-weight:800;color:#1A2B1A;letter-spacing:-0.3px;">Doa Fácil</span>
+  </header>
+
+  <main style="max-width:680px;margin:0 auto;padding:56px 0 64px;display:flex;flex-direction:column;gap:24px;">
+
+    <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;">
+      <div style="width:72px;height:72px;border-radius:50%;background:#D8F3DC;display:flex;align-items:center;justify-content:center;">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M5 12.5L10 17.5L19 7" stroke="#2D6A4F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h1 style="margin:0;font-size:32px;font-weight:800;color:#1A2B1A;letter-spacing:-0.6px;">Doação publicada com sucesso!</h1>
+      <p style="margin:0;font-size:16px;color:#5C6B5C;line-height:1.6;max-width:520px;">Agora outros moradores já podem ver sua <strong style="color:#1A2B1A;">Mesa de Escritório em L</strong> e chamar você pelo WhatsApp ou e-mail.</p>
+    </div>
+
+    <!-- Donor link card -->
+    <section style="background:#fff;border:2px solid #2D6A4F;border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:16px;">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:44px;height:44px;border-radius:12px;background:#FEF3EB;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="15" r="4" stroke="#B85D1C" stroke-width="1.8"/><path d="M11 12L20 3M17 6L20 9M15 8L17 10" stroke="#B85D1C" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <h2 style="margin:0 0 4px;font-size:19px;font-weight:800;color:#1A2B1A;">Guarde seu link de doador</h2>
+          <p style="margin:0;font-size:14px;color:#5C6B5C;line-height:1.55;">É por ele que você marca itens como reservados ou doados, edita e remove. Vale para <strong style="color:#1A2B1A;">todas</strong> as suas doações — um link só.</p>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;">
+        <label for="link" style="position:absolute;left:-9999px;">Seu link de doador</label>
+        <input id="link" type="text" readonly value="doafacil.app/minhas?k=Xa9f-Q2mT-77Lp" style="flex:1;border:1.5px solid #E2EBE2;border-radius:10px;padding:0 14px;height:48px;font-size:14px;font-family:ui-monospace,Menlo,monospace;color:#1A2B1A;background:#F7F8F5;outline:none;" />
+        <button onClick="{{copy}}" style="height:48px;padding:0 20px;border-radius:10px;background:{{copyBg}};color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="8" y="8" width="12" height="12" rx="2" stroke="#fff" stroke-width="1.8"/><path d="M16 8V6C16 4.9 15.1 4 14 4H6C4.9 4 4 4.9 4 6V14C4 15.1 4.9 16 6 16H8" stroke="#fff" stroke-width="1.8"/></svg>
+          {{copyLabel}}
+        </button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;">
+        <a href="#" style="height:46px;border-radius:10px;border:1.5px solid #E2EBE2;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:600;color:#1A2B1A;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 20L5.2 16.4C4.4 15.1 4 13.6 4 12C4 7.6 7.6 4 12 4C16.4 4 20 7.6 20 12C20 16.4 16.4 20 12 20C10.5 20 9.1 19.6 7.8 18.9L4 20Z" stroke="#1F7A4D" stroke-width="1.7" stroke-linejoin="round"/></svg>
+          Enviar para meu WhatsApp
+        </a>
+        <a href="#" style="height:46px;border-radius:10px;border:1.5px solid #E2EBE2;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:600;color:#1A2B1A;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 14V4H18V14M6 14H18M6 14V20H18V14" stroke="#2D6A4F" stroke-width="1.7" stroke-linejoin="round"/></svg>
+          Salvar nos favoritos
+        </a>
+      </div>
+
+      <div style="background:#F7F8F5;border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;">
+        <label for="rec" style="font-size:13px;font-weight:700;color:#1A2B1A;">Quer receber o link por e-mail? <span style="font-weight:500;color:#5C6B5C;">(opcional, ajuda se você trocar de celular)</span></label>
+        <div style="display:flex;gap:10px;">
+          <input id="rec" type="email" placeholder="voce@email.com" style="flex:1;border:1.5px solid #E2EBE2;border-radius:10px;padding:0 14px;height:44px;font-size:14px;background:#fff;outline:none;" />
+          <button style="height:44px;padding:0 18px;border-radius:10px;background:#fff;border:1.5px solid #2D6A4F;color:#2D6A4F;font-size:14px;font-weight:700;">Enviar</button>
+        </div>
+      </div>
+    </section>
+
+    <p style="margin:0;font-size:13px;color:#5C6B5C;text-align:center;">Este navegador já lembra de você: as próximas doações entram automaticamente no mesmo link.</p>
+
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <a href="MinhasDoacoes.dc.html" style="height:48px;padding:0 24px;border-radius:12px;background:#2D6A4F;color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;">Ver minhas doações</a>
+      <a href="Publicar.dc.html" style="height:48px;padding:0 24px;border-radius:12px;background:#fff;border:1.5px solid #E2EBE2;color:#1A2B1A;font-size:15px;font-weight:600;display:flex;align-items:center;">Doar outro item</a>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":860}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { copied: false }; }
+  renderVals() {
+    const c = this.state.copied;
+    return {
+      copy: () => this.setState({ copied: true }),
+      copyLabel: c ? "Copiado!" : "Copiar link",
+      copyBg: c ? "#1F7A4D" : "#2D6A4F"
+    };
+  }
+}
+</script>
+</body>
+</html>

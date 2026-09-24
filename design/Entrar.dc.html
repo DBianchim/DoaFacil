@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Código do condomínio — Doa Fácil</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#F7F8F5;color:#1A2B1A;}
+*{box-sizing:border-box;}
+a{color:#2D6A4F;text-decoration:none;}
+a:hover{color:#245B43;text-decoration:underline;}
+button{cursor:pointer;font-family:inherit;border:none;}
+input{font-family:inherit;}
+</style>
+</helmet>
+<div style="width:1280px;height:720px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);background:#F7F8F5;">
+
+  <!-- LEFT: brand -->
+  <div style="background:linear-gradient(160deg,#2D6A4F 0%,#1A3D2B 100%);padding:56px 64px;display:flex;flex-direction:column;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:40px;height:40px;background:rgba(255,255,255,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3C12 3 5 8 5 13.5C5 17.09 8.13 20 12 20C15.87 20 19 17.09 19 13.5C19 8 12 3 12 3Z" fill="#D8F3DC"/><path d="M12 7C12 7 9 10 9 13C9 14.65 10.34 16 12 16C13.66 16 15 14.65 15 13C15 10 12 7 12 7Z" fill="rgba(255,255,255,0.5)"/></svg>
+      </div>
+      <span style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.3px;">Doa Fácil</span>
+    </div>
+    <div>
+      <p style="margin:0 0 16px;font-size:13px;font-weight:700;color:#52B788;text-transform:uppercase;letter-spacing:1px;">Condomínio Verde Vida</p>
+      <h1 style="margin:0 0 20px;font-size:40px;font-weight:800;color:#fff;line-height:1.15;letter-spacing:-1px;">Aquilo que não usamos pode ser útil para um vizinho.</h1>
+      <p style="margin:0;font-size:16px;color:#D8F3DC;line-height:1.6;max-width:440px;">Sem cadastro e sem senha. O mural é só para quem mora aqui — por isso pedimos o código do condomínio uma única vez.</p>
+    </div>
+    <div style="display:flex;gap:28px;">
+      <div><div style="font-size:26px;font-weight:800;color:#fff;">847</div><div style="font-size:12px;color:#52B788;">itens doados</div></div>
+      <div><div style="font-size:26px;font-weight:800;color:#fff;">127</div><div style="font-size:12px;color:#52B788;">disponíveis agora</div></div>
+    </div>
+  </div>
+
+  <!-- RIGHT: code form -->
+  <div style="display:flex;align-items:center;justify-content:center;padding:48px;">
+    <div style="width:100%;max-width:420px;display:flex;flex-direction:column;gap:24px;">
+
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <h2 style="margin:0;font-size:28px;font-weight:800;color:#1A2B1A;letter-spacing:-0.5px;">Digite o código do condomínio</h2>
+        <p style="margin:0;font-size:14px;color:#5C6B5C;line-height:1.6;">Você encontra o código no cartaz do elevador e da portaria. Se leu o QR Code, a entrada é automática.</p>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label for="codigo" style="font-size:13px;font-weight:600;color:#1A2B1A;">Código de acesso</label>
+        <input id="codigo" type="text" value="VERDE-7K2P" style="border:1.5px solid #2D6A4F;border-radius:12px;padding:0 18px;height:56px;font-size:20px;font-weight:700;letter-spacing:3px;color:#1A2B1A;outline:none;background:#fff;text-transform:uppercase;" />
+      </div>
+
+      <a href="Home.dc.html" style="height:52px;background:#2D6A4F;color:#fff;border-radius:12px;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;text-decoration:none;">Entrar no mural</a>
+
+      <!-- Error state sample -->
+      <div role="alert" style="background:#FEF2F2;border:1px solid #F5C2C0;border-radius:12px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="9" stroke="#B42318" stroke-width="1.6"/><path d="M12 7.5V12.5M12 16H12.01" stroke="#B42318" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#B42318;">Exemplo de erro: código não reconhecido</div>
+          <div style="font-size:12px;color:#7A271A;line-height:1.5;margin-top:2px;">Confira o cartaz mais recente — o código pode ter sido trocado pelo síndico.</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #E2EBE2;border-radius:14px;padding:14px 16px;">
+        <div style="width:44px;height:44px;border-radius:10px;background:#D8F3DC;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#2D6A4F" stroke-width="1.6"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="#2D6A4F" stroke-width="1.6"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="#2D6A4F" stroke-width="1.6"/><path d="M14 14H17V17M21 14V21H14V18" stroke="#2D6A4F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p style="margin:0;font-size:13px;color:#5C6B5C;line-height:1.5;">Seu navegador lembra o acesso por 6 meses. Não é preciso criar conta.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

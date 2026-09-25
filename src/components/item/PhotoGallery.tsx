@@ -38,7 +38,7 @@ export function PhotoGallery({ title, photos, placeholder }: Props) {
         />
       </div>
       {photos.length > 1 && (
-        <ul className="flex gap-2.5 overflow-x-auto pb-1" aria-label="Fotos do item">
+        <ul className="relative flex gap-2.5 overflow-x-auto pb-1" aria-label="Fotos do item">
           {photos.map((p, i) => (
             <li key={p.url} className="shrink-0">
               <button

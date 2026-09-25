@@ -120,3 +120,17 @@
     }
   }
 }
+
+/* Cartaz A4 (/cartaz): uma página, sem margens, com as cores de fundo. */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  .cartaz {
+    height: 297mm;
+    aspect-ratio: auto;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

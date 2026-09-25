@@ -63,7 +63,7 @@ export function MyItemsList({ items }: { items: MyItem[] }) {
               </span>
 
               <div className="flex min-w-0 flex-col items-start gap-1.5">
-                <Link href={`/item/${item.id}`} className="line-clamp-2 font-bold hover:text-primary hover:underline">
+                <Link href={`/item/${item.id}`} className="-my-2.5 line-clamp-2 py-2.5 font-bold hover:text-primary hover:underline">
                   {item.title}
                 </Link>
                 <StatusBadge status={item.status} shape="tag" dot />

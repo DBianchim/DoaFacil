@@ -55,7 +55,7 @@ export default async function ExplorarPage({ searchParams }: PageProps<"/explora
           <ExploreFilters params={params} sortOptions={SORT_OPTIONS} />
 
           <nav aria-label="Categorias" className="mt-3.5">
-            <ul className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0">
+            <ul className="relative -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0">
               {[{ value: undefined, label: "Todos" }, ...CATEGORIES].map((c) => {
                 const active = filters.category === c.value;
                 return (
@@ -64,7 +64,7 @@ export default async function ExplorarPage({ searchParams }: PageProps<"/explora
                       href={exploreHref(params, { cat: c.value, page: 1 })}
                       aria-current={active ? "true" : undefined}
                       className={cn(
-                        "flex min-h-11 items-center rounded-full border-[1.5px] px-3.5 text-xs font-semibold transition-colors sm:min-h-9",
+                        "flex min-h-11 items-center rounded-full border-[1.5px] px-3.5 text-xs font-semibold transition-colors",
                         active
                           ? "border-primary-light bg-primary-pale text-primary"
                           : "border-border bg-surface text-text-2 hover:border-primary-light",

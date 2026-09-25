@@ -50,7 +50,7 @@ export function ExploreFilters({ params, sortOptions }: Props) {
         <label htmlFor="busca" className="sr-only">
           Buscar itens
         </label>
-        <div className="flex h-11 min-w-0 flex-1 items-center gap-2.5 rounded-control border-[1.5px] border-border bg-bg px-3.5 focus-within:border-primary focus-within:bg-surface">
+        <div className="flex h-12 min-w-0 flex-1 items-center gap-2.5 rounded-control border-[1.5px] border-border bg-bg px-3.5 focus-within:border-primary focus-within:bg-surface">
           <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true" className="shrink-0 text-text-2">
             <circle cx="9" cy="9" r="5.5" stroke="currentColor" strokeWidth="1.5" />
             <path d="M15.5 15.5L13 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -67,7 +67,7 @@ export function ExploreFilters({ params, sortOptions }: Props) {
         </div>
         <button
           type="submit"
-          className="min-h-11 shrink-0 rounded-control bg-primary px-4 text-sm font-semibold text-white hover:bg-primary-hover"
+          className="min-h-12 shrink-0 rounded-control bg-primary px-4 text-sm font-semibold text-white hover:bg-primary-hover"
         >
           Buscar
         </button>

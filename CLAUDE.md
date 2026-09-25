@@ -99,7 +99,7 @@ Fotos: bucket privado `item-photos`, servidas via signed URLs geradas no servido
 | `/api/contato/[id]` | — | Verifica cookie, incrementa `interest_clicks`, devolve os canais |
 | `/admin` | — | Protegida por `ADMIN_PASSWORD` em env; lista denúncias e remove anúncios |
 
-`design/Cartaz.dc.html` é o cartaz A4 com QR Code, para impressão (pode virar a página `/cartaz` com o QR gerado pela lib `qrcode`).
+`design/Cartaz.dc.html` virou a página `/cartaz` (A4 para impressão, QR gerado pela lib `qrcode` apontando para `/entrar?c=CODIGO`). Como mostra o código do condomínio, só o síndico acessa: `/cartaz` exige a mesma sessão do `/admin` (`src/lib/admin.ts`: cookie com HMAC da `ADMIN_PASSWORD`, login com rate limit de 5 tentativas/15 min).
 
 ## Acesso pelo código do condomínio (`src/proxy.ts`)
 

@@ -81,7 +81,8 @@ export default async function HomePage() {
           <h2 id="titulo-categorias" className="mb-3 text-sm font-bold md:sr-only">
             Categorias
           </h2>
-          <ul className="-mx-4 flex gap-2.5 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
+          {/* relative: prende os textos sr-only (absolute) dentro da rolagem; sem isso eles alargavam a página no celular. */}
+          <ul className="relative -mx-4 flex gap-2.5 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
             <li aria-hidden="true" className="hidden items-center pr-1 text-caption font-semibold text-text-2 md:flex">
               Categorias:
             </li>

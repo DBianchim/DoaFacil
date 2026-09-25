@@ -168,6 +168,11 @@ export default async function HomePage() {
               </li>
             ))}
           </ol>
+          <div className="mt-6 flex justify-center">
+            <ButtonLink href="/por-que-doar" variant="secondary">
+              Por que doar faz diferença?
+            </ButtonLink>
+          </div>
         </section>
 
         {/* IMPACTO */}

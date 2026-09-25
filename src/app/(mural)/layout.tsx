@@ -16,7 +16,8 @@ export default async function MuralLayout({ children }: LayoutProps<"/">) {
       >
         Pular para o conteúdo
       </a>
-      <SiteHeader condoName={condoName.replace(/^Condom[íi]nio\s+/i, "Cond. ")} />
+      {/* No selo do celular o prefixo "Condomínio" sai para o nome caber ao lado do logo. */}
+      <SiteHeader condoName={condoName.replace(/^Condom[íi]nio\s+/i, "")} />
       <div id="conteudo" className="flex flex-1 flex-col">
         {children}
       </div>

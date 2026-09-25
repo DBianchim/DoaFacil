@@ -286,6 +286,7 @@ who = Table([
     [Paragraph("<b>Quem faz o quê</b>", ParagraphStyle("w0", parent=cover_small, textColor=colors.white, fontName="UI-Bold"))],
     [Paragraph("<b>Colega do grupo</b> — cria o projeto no Supabase e convida o David (Parte 1).", cover_small)],
     [Paragraph("<b>David</b> — cria o GitHub e a Vercel e cadastra as chaves (Partes 2 a 4).", cover_small)],
+    [Paragraph("<b>Síndico</b> — revisa denúncias e imprime o cartaz com QR Code (Parte 5).", cover_small)],
     [Paragraph("Tempo estimado: 30 a 40 minutos no total. Custo: R$ 0.", cover_small)],
 ], colWidths=[CONTENT_W])
 who.setStyle(TableStyle([
@@ -296,7 +297,7 @@ who.setStyle(TableStyle([
     ("TOPPADDING", (0, 0), (-1, 0), 14), ("BOTTOMPADDING", (0, -1), (-1, -1), 14),
 ]))
 story += [who, Spacer(1, 150),
-          Paragraph("Atividade extensionista · Plataforma de doações do condomínio", cover_small),
+          Paragraph("Atividade extensionista · Plataforma de doações do Condomínio Fatto Torres de São José", cover_small),
           NextPageTemplate("body"), PageBreak()]
 
 # --- VISÃO GERAL -------------------------------------------------------------
@@ -381,11 +382,16 @@ story.append(step(2, "Convidar o David para o projeto", [
     "O David recebe um e-mail e precisa aceitar o convite.",
 ]))
 
-story.append(step(3, "Criar as tabelas (rodar a migração)", [
-    "O David envia o arquivo " + code("supabase/migrations/20260923000000_init.sql") + " (ou o link dele no GitHub).",
-    f"No menu lateral, abra {ui('SQL Editor')} e clique em {ui('New query')}.",
-    f"Copie <b>todo</b> o conteúdo do arquivo, cole no editor e clique em {ui('Run')}.",
-    "O resultado esperado é <b>“Success. No rows returned”</b>.",
+story.append(step(3, "Criar as tabelas (rodar as migrações)", [
+    "O David envia os arquivos da pasta " + code("supabase/migrations") + " (ou o link dela no GitHub). "
+    "São dois, e precisam rodar <b>nesta ordem</b>:",
+    table(["Ordem", "Arquivo", "O que faz"], [
+        ["1º", P(code("20260923000000_init.sql"), "cell"), "Cria tabelas, proteções, bucket de fotos e tarefas agendadas."],
+        ["2º", P(code("20260925000000_fix_safeupdate.sql"), "cell"), "Corrige os contadores de contatos e de doações."],
+    ], [16 * mm, 70 * mm, CONTENT_W - 32 - 86 * mm]),
+    Spacer(1, 6),
+    f"Para cada arquivo: abra {ui('SQL Editor')}, clique em {ui('New query')}, cole <b>todo</b> o conteúdo e clique em {ui('Run')}.",
+    "O resultado esperado é <b>“Success. No rows returned”</b> nos dois.",
     callout("warn", "Se aparecer erro falando de pg_cron", [
         f"Abra {ui('Integrations › Cron')}, clique em {ui('Enable')} e rode o mesmo SQL de novo. "
         "Quando dá erro, o Supabase desfaz tudo o que o arquivo fez — então é seguro rodar outra vez. "
@@ -464,8 +470,9 @@ story.append(step(1, "Importar o projeto", [
     "A Vercel reconhece o Next.js sozinha. Não mude nenhuma configuração de build.",
 ]))
 story.append(step(2, "Cadastrar as variáveis de ambiente", [
-    f"Ainda na tela de importação, abra {ui('Environment Variables')} e cadastre uma por uma "
-    f"(depois ficam em {ui('Settings › Environment Variables')}):",
+    f"Ainda na tela de importação, abra {ui('Environment Variables')} e cadastre as 7 variáveis "
+    f"(depois ficam em {ui('Settings › Environment Variables')}). Dica: colar um bloco no formato "
+    + code("NOME=valor") + " no primeiro campo cria todas de uma vez.",
 ]))
 story.append(table(
     ["Nome (exatamente assim)", "Valor", "Secreta?"],
@@ -474,11 +481,13 @@ story.append(table(
         [P(code("SUPABASE_SERVICE_ROLE_KEY"), "cell"), "A Secret key (sb_secret_…) ou a service_role.",
          P("<font color='#B42318'><b>SIM</b></font>", "cell")],
         [P(code("CONDO_CODE"), "cell"),
-         "O código que vai no cartaz do elevador. Invente um <b>novo</b>, ex.: " + code("FLOR-9M4T") +
+         "O código que vai no cartaz do elevador. Invente um <b>novo</b>, ex.: " + code("FATTO-7Q2M") +
          ". Não use o exemplo do projeto.", P("<b>Sim</b>", "cell")],
         [P(code("CONDO_CODE_VERSION"), "cell"), code("v1") + " — trocar para v2, v3… obriga todos a digitar o código de novo.", "Não"],
-        [P(code("CONDO_NAME"), "cell"), "Nome que aparece no site, ex.: Condomínio Verde Vida.", "Não"],
+        [P(code("CONDO_NAME"), "cell"), "Nome que aparece no site e no cartaz: Condomínio Fatto Torres de São José.", "Não"],
         [P(code("ADMIN_PASSWORD"), "cell"), "Senha do painel do síndico. Longa (16+ caracteres), gerada por um gerenciador de senhas.",
+         P("<font color='#B42318'><b>SIM</b></font>", "cell")],
+        [P(code("CRON_SECRET"), "cell"), "Valor aleatório longo. A Vercel usa para rodar a limpeza diária das fotos de anúncios expirados.",
          P("<font color='#B42318'><b>SIM</b></font>", "cell")],
     ],
     [64 * mm, CONTENT_W - 64 * mm - 20 * mm, 20 * mm],
@@ -516,6 +525,35 @@ story.append(step(2, "Rodar a verificação", [
     "nem ver fotos — é a principal regra de segurança do projeto.",
 ]))
 
+# --- PARTE 5: SÍNDICO ---------------------------------------------------------
+story.append(CondPageBreak(90 * mm))
+story += section(
+    "Parte 5 · Síndico", "Painel do síndico e cartaz com QR Code",
+    "O síndico não precisa de conta: usa a senha ADMIN_PASSWORD cadastrada na Vercel.",
+)
+story.append(step(1, "Entrar no painel", [
+    "Abra o site, entre com o código do condomínio e acesse " + code("/admin") + " (ex.: "
+    + code("doafacil-usf.vercel.app/admin") + "). Digite a senha do síndico.",
+    "Por segurança, depois de 5 senhas erradas o login fica bloqueado por 15 minutos. A sessão dura 12 horas.",
+]))
+story.append(step(2, "Revisar denúncias", [
+    "Anúncios denunciados pelos moradores aparecem primeiro, com a quantidade de denúncias.",
+    *bullets([
+        "<b>Arquivar denúncias</b>: o anúncio está ok e continua no mural.",
+        "<b>Remover anúncio</b>: sai do mural e o contato e as fotos do doador são apagados. Não dá para desfazer.",
+    ]),
+]))
+story.append(step(3, "Imprimir o cartaz", [
+    f"No painel, clique em {ui('Imprimir cartaz com QR Code')} e depois em {ui('Imprimir cartaz')}.",
+    "Na janela de impressão: papel <b>A4</b>, margens <b>Nenhuma</b> e ative <b>Gráficos de plano de fundo</b> "
+    "para sair com as cores. Cole no elevador e na portaria.",
+    "O cartaz mostra o código do condomínio, por isso só o síndico consegue abri-lo.",
+]))
+story.append(callout("warn", "Antes de divulgar para os moradores", [
+    "Apague os anúncios de exemplo e zere os números de impacto rodando no SQL Editor as duas linhas que estão no "
+    "começo do arquivo " + code("supabase/seed.sql") + ".",
+]))
+
 # --- SEGURANÇA E MANUTENÇÃO --------------------------------------------------
 story.append(P("Situações do dia a dia", "h2"))
 story.append(table(
@@ -529,7 +567,10 @@ story.append(table(
          "Todos os moradores precisarão ler o QR Code de novo."],
         ["<b>O site parou e o Supabase mostra “Paused”</b>",
          "Projetos gratuitos pausam após 1 semana sem uso. Quem é dono do projeto (o colega) entra no painel e clica em "
-         "<b>Restore project</b>. O site terá uma tarefa diária que ajuda a evitar a pausa."],
+         "<b>Restore project</b>. A limpeza diária de fotos (CRON_SECRET) acessa o banco todo dia, o que ajuda a evitar a pausa."],
+        ["<b>A limpeza diária de fotos não roda</b>",
+         "Confira se a variável CRON_SECRET existe na Vercel e se houve um deploy depois de cadastrá-la. "
+         f"O histórico fica em {ui('Settings › Cron Jobs')} na Vercel."],
         ["<b>A Vercel mostra “Deployment blocked”</b>",
          "O autor do commit não é o dono da conta Vercel. Confira o e-mail do Git (Parte 2, passo 2) e se o GitHub "
          f"está conectado em {ui('Account Settings › Login Connections')} na Vercel."],
@@ -560,17 +601,22 @@ story.append(P("Colega do grupo", "h2"))
 story.append(checkbox_list([
     "Projeto <b>doafacil</b> criado no Supabase, região São Paulo.",
     "David convidado como <b>Developer</b> (e convite aceito).",
-    "Migração rodada: 6 tabelas, bucket <b>item-photos</b> privado e 2 tarefas no Cron.",
+    "As 2 migrações rodadas na ordem: 6 tabelas, bucket <b>item-photos</b> privado e 2 tarefas no Cron.",
     "Project URL e Secret key entregues ao David em conversa privada (e mensagem apagada).",
 ]))
 story.append(P("David", "h2"))
 story.append(checkbox_list([
     "Repositório <b>doafacil</b> criado e código enviado, sem nenhum arquivo .env real.",
-    "Projeto importado na Vercel com as 6 variáveis cadastradas (secretas como <b>Sensitive</b>).",
+    "Projeto importado na Vercel com as 7 variáveis cadastradas (secretas como <b>Sensitive</b>).",
     "Código do condomínio novo (não o de exemplo) e senha de administrador longa.",
     "Região das funções: São Paulo (gru1).",
     ".env.local preenchido e <b>npm run db:verificar</b> terminando com “Tudo certo.”",
     "Antes de divulgar no condomínio: dados de exemplo apagados.",
+]))
+story.append(P("Síndico", "h2"))
+story.append(checkbox_list([
+    "Entrou no painel " + code("/admin") + " com a senha do síndico.",
+    "Cartaz impresso em A4 e colado no elevador e na portaria.",
 ]))
 story.append(Spacer(1, 16))
 story.append(callout("tip", "Dúvidas sobre alguma tela?", [

@@ -13,7 +13,7 @@
 export const CONDO_COOKIE = "condo";
 export const CONDO_COOKIE_MAX_AGE = 60 * 60 * 24 * 180; // 6 meses
 
-/** "verde 7k2p", "VERDE-7K2P" e "Verde7K2P" viram o mesmo código. */
+/** "fatto 4ubm", "FATTO-4UBM" e "Fatto4UBM" viram o mesmo código. */
 export function normalizeCode(value: string): string {
   return value
     .normalize("NFKD")

@@ -33,6 +33,21 @@ export function SiteFooter({ condoName }: { condoName: string }) {
           <Logo size="sm" tone="onDark" />
           <p className="text-xs text-primary-light">Plataforma de doações do {condoName}</p>
         </div>
+        <nav aria-label="Rodapé">
+          <ul className="flex flex-wrap gap-x-5">
+            {[
+              ["/por-que-doar", "Por que doar"],
+              ["/explorar", "Explorar"],
+              ["/publicar", "Publicar doação"],
+            ].map(([href, label]) => (
+              <li key={href}>
+                <Link href={href} className="flex min-h-11 items-center text-sm font-semibold text-primary-pale hover:text-white hover:underline">
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
         <p className="text-xs text-primary-light">© {new Date().getFullYear()} Doa Fácil · Feito com cuidado pela comunidade</p>
       </div>
     </footer>

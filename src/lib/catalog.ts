@@ -50,3 +50,6 @@ export const conditionLabel = (c: Condition) => conditionMap[c].label;
 /** Fundo do placeholder quando o item não tem foto (alternando os tons dos protótipos). */
 export const placeholderBg = (c: Category) =>
   ["eletrodomesticos", "esportes", "brinquedos"].includes(c) ? "#FEF3EB" : "#EEF7F1";
+
+/** Miniatura de uma foto do Storage: "u/abc/0.webp" → "u/abc/0_t.webp" (usada nos cards). */
+export const thumbPath = (path: string) => path.replace(/(\.[a-z0-9]+)$/i, "_t$1");

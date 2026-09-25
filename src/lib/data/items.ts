@@ -1,7 +1,8 @@
 import "server-only";
 
 import { requireCondoAccess } from "@/lib/condo";
-import { CATEGORIES, PHOTO_BUCKET, type Category, type Condition, type Status } from "@/lib/catalog";
+import { CATEGORIES, PHOTO_BUCKET, thumbPath, type Category, type Condition, type Status } from "@/lib/catalog";
+import { isUuid } from "@/lib/rate-limit";
 import { supabaseAdmin } from "@/lib/supabase/server";
 
 /** O que os cards precisam — nunca inclui contato nem dados do doador. */
@@ -62,14 +63,18 @@ function normalizeSearch(q: string) {
 /** Escapa curingas do LIKE para a busca ser literal. */
 const escapeLike = (s: string) => s.replace(/[\\%_]/g, (c) => `\\${c}`);
 
-/** Gera URLs assinadas (1h) para a primeira foto de cada item, numa só chamada. */
-async function withCoverUrls(rows: CardRow[]): Promise<ItemCardData[]> {
-  const covers = rows.map((r) => r.photos[0]).filter((p): p is string => Boolean(p));
+/** URLs assinadas (1h) para vários caminhos do Storage, numa só chamada. */
+async function signPaths(paths: string[]): Promise<Map<string, string>> {
   const urls = new Map<string, string>();
-  if (covers.length > 0) {
-    const { data } = await supabaseAdmin().storage.from(PHOTO_BUCKET).createSignedUrls(covers, 60 * 60);
-    for (const s of data ?? []) if (s.path && s.signedUrl) urls.set(s.path, s.signedUrl);
-  }
+  if (paths.length === 0) return urls;
+  const { data } = await supabaseAdmin().storage.from(PHOTO_BUCKET).createSignedUrls(paths, 60 * 60);
+  for (const s of data ?? []) if (s.path && s.signedUrl && !s.error) urls.set(s.path, s.signedUrl);
+  return urls;
+}
+
+/** Cards usam a miniatura da primeira foto. */
+async function withCoverUrls(rows: CardRow[]): Promise<ItemCardData[]> {
+  const urls = await signPaths(rows.filter((r) => r.photos[0]).map((r) => thumbPath(r.photos[0])));
   return rows.map((r) => ({
     id: r.id,
     title: r.title,
@@ -79,7 +84,7 @@ async function withCoverUrls(rows: CardRow[]): Promise<ItemCardData[]> {
     status: r.status,
     block: r.block,
     createdAt: r.created_at,
-    photoUrl: r.photos[0] ? (urls.get(r.photos[0]) ?? null) : null,
+    photoUrl: r.photos[0] ? (urls.get(thumbPath(r.photos[0])) ?? null) : null,
   }));
 }
 
@@ -164,4 +169,70 @@ export async function categoryCounts(): Promise<Record<Category, number>> {
   const counts = Object.fromEntries(CATEGORIES.map((c) => [c.value, 0])) as Record<Category, number>;
   for (const row of data) counts[row.category] += 1;
   return counts;
+}
+
+export type ItemDetail = {
+  id: string;
+  title: string;
+  description: string | null;
+  notes: string | null;
+  category: Category;
+  condition: Condition;
+  status: Status;
+  nickname: string;
+  block: string | null;
+  pickupInfo: string | null;
+  interestClicks: number;
+  createdAt: string;
+  expiresAt: string;
+  photos: { url: string; thumbUrl: string }[];
+  /** Só QUAIS canais existem — os valores nunca saem daqui (só por /api/contato). */
+  channels: { whatsapp: boolean; phone: boolean; email: boolean; instagram: boolean };
+};
+
+/** Um anúncio para a página de detalhes; null se não existe ou expirou. */
+export async function getItem(id: string): Promise<ItemDetail | null> {
+  await requireCondoAccess();
+  if (!isUuid(id)) return null;
+
+  const db = supabaseAdmin();
+  const [{ data: item, error }, { data: contact }] = await Promise.all([
+    db
+      .from("items")
+      .select(
+        "id, title, description, notes, category, condition, status, photos, nickname, block, pickup_info, interest_clicks, created_at, expires_at",
+      )
+      .eq("id", id)
+      .gt("expires_at", new Date().toISOString())
+      .maybeSingle(),
+    db.from("item_contacts").select("whatsapp, phone, email, instagram").eq("item_id", id).maybeSingle(),
+  ]);
+  if (error) throw new Error(`Falha ao carregar o item: ${error.message}`);
+  if (!item) return null;
+
+  const urls = await signPaths(item.photos.flatMap((p) => [p, thumbPath(p)]));
+  return {
+    id: item.id,
+    title: item.title,
+    description: item.description,
+    notes: item.notes,
+    category: item.category,
+    condition: item.condition,
+    status: item.status,
+    nickname: item.nickname,
+    block: item.block,
+    pickupInfo: item.pickup_info,
+    interestClicks: item.interest_clicks,
+    createdAt: item.created_at,
+    expiresAt: item.expires_at,
+    photos: item.photos
+      .filter((p) => urls.has(p))
+      .map((p) => ({ url: urls.get(p)!, thumbUrl: urls.get(thumbPath(p)) ?? urls.get(p)! })),
+    channels: {
+      whatsapp: Boolean(contact?.whatsapp),
+      phone: Boolean(contact?.phone),
+      email: Boolean(contact?.email),
+      instagram: Boolean(contact?.instagram),
+    },
+  };
 }

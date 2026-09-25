@@ -49,7 +49,28 @@ export async function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
-  if (hasAccess) return NextResponse.next();
+  if (hasAccess) {
+    // Link de doador aberto em outro aparelho: /minhas?k=CHAVE guarda a chave no
+    // cookie e limpa a URL (a chave não fica no histórico nem na tela).
+    const key = pathname === "/minhas" ? searchParams.get("k") : null;
+    if (key !== null) {
+      const clean = new URL("/minhas", req.url);
+      if (!/^[A-Za-z0-9_-]{20,64}$/.test(key)) {
+        clean.searchParams.set("link", "invalido");
+        return NextResponse.redirect(clean);
+      }
+      const res = NextResponse.redirect(clean);
+      res.cookies.set("doador", key, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 60 * 60 * 24 * 400,
+      });
+      return res;
+    }
+    return NextResponse.next();
+  }
 
   if (pathname.startsWith("/api/")) {
     return NextResponse.json({ error: "Acesso restrito aos moradores." }, { status: 401 });
@@ -62,5 +83,6 @@ export async function proxy(req: NextRequest) {
 
 export const config = {
   // Tudo, menos arquivos do Next e arquivos públicos estáticos.
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|robots.txt).*)"],
+  // /api/cron tem autenticação própria (CRON_SECRET) e é chamado pela Vercel, sem cookie.
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|robots.txt|api/cron/).*)"],
 };

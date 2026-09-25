@@ -2,6 +2,7 @@ import "server-only";
 
 import { requireCondoAccess } from "@/lib/condo";
 import { CATEGORIES, PHOTO_BUCKET, thumbPath, type Category, type Condition, type Status } from "@/lib/catalog";
+import { expiresIn } from "@/lib/format";
 import { isUuid } from "@/lib/rate-limit";
 import { supabaseAdmin } from "@/lib/supabase/server";
 
@@ -235,4 +236,42 @@ export async function getItem(id: string): Promise<ItemDetail | null> {
       instagram: Boolean(contact?.instagram),
     },
   };
+}
+
+export type MyItem = {
+  id: string;
+  title: string;
+  category: Category;
+  status: Status;
+  interestClicks: number;
+  /** "em 25 dias" — calculado no servidor para não divergir na hidratação. */
+  expiresLabel: string;
+  /** Faltam 7 dias ou menos: mostra "Renovar". */
+  expiresSoon: boolean;
+  photoUrl: string | null;
+};
+
+const SOON_MS = 7 * 86_400_000;
+
+/** Doações do doador (já autenticado pela chave), mais novas primeiro. */
+export async function listDonorItems(donorId: string): Promise<MyItem[]> {
+  await requireCondoAccess();
+  const { data, error } = await supabaseAdmin()
+    .from("items")
+    .select("id, title, category, status, interest_clicks, expires_at, photos")
+    .eq("donor_id", donorId)
+    .gt("expires_at", new Date().toISOString())
+    .order("created_at", { ascending: false });
+  if (error) throw new Error(`Falha ao listar suas doações: ${error.message}`);
+  const urls = await signPaths(data.filter((r) => r.photos[0]).map((r) => thumbPath(r.photos[0])));
+  return data.map((r) => ({
+    id: r.id,
+    title: r.title,
+    category: r.category,
+    status: r.status,
+    interestClicks: r.interest_clicks,
+    expiresLabel: expiresIn(r.expires_at),
+    expiresSoon: r.status !== "doado" && new Date(r.expires_at).getTime() - Date.now() <= SOON_MS,
+    photoUrl: r.photos[0] ? (urls.get(thumbPath(r.photos[0])) ?? null) : null,
+  }));
 }

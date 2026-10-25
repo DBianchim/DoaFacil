@@ -1,0 +1,55 @@
+# Publica na Vercel a cada push na main, sem a integração GitHub ↔ Vercel
+# (que foi desligada para não afetar outros projetos da conta).
+#
+# Segredos do repositório (Settings › Secrets and variables › Actions):
+#   VERCEL_TOKEN       token criado em vercel.com/account/settings/tokens (escopo: só o time do projeto)
+#   VERCEL_ORG_ID      ID do time na Vercel     (arquivo .vercel/project.json → "orgId")
+#   VERCEL_PROJECT_ID  ID do projeto doafacil   (arquivo .vercel/project.json → "projectId")
+#
+# O build roda na própria Vercel (como no deploy pelo Git), com as variáveis de
+# ambiente cadastradas lá. Se o lint ou o build falhar, o site no ar não muda.
+
+name: Deploy na Vercel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # botão "Run workflow" para publicar manualmente
+
+concurrency:
+  group: vercel-producao
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Publicar em produção
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_PROJECT_ID" ]; then
+            echo "::warning::Deploy pulado: cadastre VERCEL_TOKEN, VERCEL_ORG_ID e VERCEL_PROJECT_ID nos segredos do repositório."
+            exit 0
+          fi
+          npx --yes vercel@65 deploy --prod --yes --token="$VERCEL_TOKEN"

@@ -99,7 +99,13 @@ Fotos: bucket privado `item-photos`, servidas via signed URLs geradas no servido
 | `/api/contato/[id]` | — | Verifica cookie, incrementa `interest_clicks`, devolve os canais |
 | `/admin` | — | Protegida por `ADMIN_PASSWORD` em env; lista denúncias e remove anúncios |
 
-`design/Cartaz.dc.html` virou a página `/cartaz` (A4 para impressão, QR gerado pela lib `qrcode` apontando para `/entrar?c=CODIGO`). Como mostra o código do condomínio, só o síndico acessa: `/cartaz` exige a mesma sessão do `/admin` (`src/lib/admin.ts`: cookie com HMAC da `ADMIN_PASSWORD`, login com rate limit de 5 tentativas/15 min).
+`design/Cartaz.dc.html` virou a página `/cartaz` (A4 para impressão, QR gerado pela lib `qrcode` apontando para `/entrar?c=CODIGO`). Como mostra o código do condomínio, só o síndico acessa: `/cartaz` exige a mesma sessão do `/admin` (`src/lib/admin.ts`: login com rate limit de 5 tentativas/15 min; cookie com HMAC da senha vigente).
+
+Senha do síndico: vale o hash scrypt em `admin_config` se ele trocou pelo painel; senão, a `ADMIN_PASSWORD` da Vercel. Recuperação: `npm run admin:senha -- --voltar-para-env` (volta a valer a variável) ou `-- --gerar` (senha nova, mostrada uma vez).
+
+## Deploy
+
+A integração Git ↔ Vercel está **desligada**. O deploy de produção é feito pela GitHub Action `.github/workflows/deploy.yml` (push na `main` → lint → `vercel deploy --prod`), com os segredos `VERCEL_TOKEN`, `VERCEL_ORG_ID` e `VERCEL_PROJECT_ID`. Manual: `npx vercel deploy --prod` (precisa de `npx vercel login` e `npx vercel link`).
 
 ## Acesso pelo código do condomínio (`src/proxy.ts`)
 

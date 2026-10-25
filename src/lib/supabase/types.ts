@@ -94,6 +94,12 @@ export type Database = {
         Update: { key?: string; window_start?: Timestamp; hits?: number };
         Relationships: [];
       };
+      admin_config: {
+        Row: { id: boolean; password_hash: string; recovery_hash: string | null; updated_at: Timestamp };
+        Insert: { id?: boolean; password_hash: string; recovery_hash?: string | null; updated_at?: Timestamp };
+        Update: { id?: boolean; password_hash?: string; recovery_hash?: string | null; updated_at?: Timestamp };
+        Relationships: [];
+      };
       photo_cleanup_queue: {
         Row: { path: string; queued_at: Timestamp };
         Insert: { path: string; queued_at?: Timestamp };

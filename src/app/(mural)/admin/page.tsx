@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { AdminItemsList, type AdminItem } from "@/components/admin/AdminItemsList";
 import { AdminLogin } from "@/components/admin/AdminLogin";
+import { AdminChangePasswordForm, AdminNewRecoveryCodeForm, AdminSetupForm } from "@/components/admin/AdminPasswordForms";
 import { ButtonLink } from "@/components/ui";
-import { isAdmin } from "@/lib/admin";
+import Link from "next/link";
+import { adminSetup, isAdmin, MIN_PASSWORD_LENGTH } from "@/lib/admin";
 import { requireCondoAccess } from "@/lib/condo";
 import { env } from "@/lib/env";
 import { relativeDate } from "@/lib/format";
@@ -46,6 +48,33 @@ export default async function AdminPage() {
         <section className="rounded-panel border border-border bg-surface p-6">
           <AdminLogin />
         </section>
+        <Link
+          href="/admin/recuperar"
+          className="flex min-h-11 items-center justify-center text-sm font-semibold text-primary hover:text-primary-hover hover:underline"
+        >
+          Esqueci a senha
+        </Link>
+      </main>
+    );
+  }
+
+  const setup = await adminSetup();
+
+  // Primeiro acesso (entrou com a senha inicial da Vercel): cria a própria senha e recebe o código de recuperação.
+  if (setup === "needs-setup") {
+    return (
+      <main className="mx-auto flex w-full max-w-lg flex-1 flex-col gap-6 px-4 py-12">
+        <div>
+          <h1 className="text-[26px] font-extrabold tracking-tight">Crie sua senha de síndico</h1>
+          <p className="mt-2 text-sm leading-relaxed text-text-2">
+            Você entrou com a senha inicial. Antes de usar o painel, crie uma senha só sua. Em seguida o site mostra um{" "}
+            <strong className="text-text">código de recuperação</strong> — com ele você redefine a senha sozinho se um dia
+            esquecer.
+          </p>
+        </div>
+        <section className="rounded-panel border border-border bg-surface p-6">
+          <AdminSetupForm minLength={MIN_PASSWORD_LENGTH} />
+        </section>
       </main>
     );
   }
@@ -86,6 +115,34 @@ export default async function AdminPage() {
           Todos os anúncios
         </h2>
         <AdminItemsList items={items.filter((i) => i.reports === 0)} emptyText="Nenhum outro anúncio no mural." />
+      </section>
+
+      <section aria-labelledby="titulo-senha" className="rounded-panel border border-border bg-surface p-5 md:p-7">
+        <h2 id="titulo-senha" className="text-lg font-bold">
+          Senha do síndico
+        </h2>
+        {setup === "ready" ? (
+          <>
+            <p className="mt-1.5 mb-5 text-sm text-text-2">
+              Troque a senha quando assumir o cargo ou se desconfiar que alguém a conhece. Quem estiver com o painel aberto
+              em outro aparelho precisará entrar de novo.
+            </p>
+            <AdminChangePasswordForm minLength={MIN_PASSWORD_LENGTH} />
+
+            <div className="mt-8 border-t border-divider pt-6">
+              <h3 className="font-bold">Código de recuperação</h3>
+              <p className="mt-1.5 mb-4 text-sm text-text-2">
+                Perdeu o código ou acha que alguém o viu? Gere um novo — o anterior para de funcionar na hora.
+              </p>
+              <AdminNewRecoveryCodeForm />
+            </div>
+          </>
+        ) : (
+          <p className="mt-1.5 text-sm text-text-2">
+            Para trocar a senha pelo painel e usar o “Esqueci a senha”, quem administra o site precisa aplicar a migração{" "}
+            <code>20261025000000_admin_password.sql</code> no Supabase. Até lá vale a senha cadastrada na Vercel.
+          </p>
+        )}
       </section>
 
       <section aria-labelledby="titulo-acesso" className="rounded-panel border border-border bg-surface p-5 md:p-7">

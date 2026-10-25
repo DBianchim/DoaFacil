@@ -39,6 +39,8 @@ export function SiteFooter({ condoName }: { condoName: string }) {
               ["/por-que-doar", "Por que doar"],
               ["/explorar", "Explorar"],
               ["/publicar", "Publicar doação"],
+              ["/noticias", "Notícias"],
+              ["/admin", "Área do síndico"],
             ].map(([href, label]) => (
               <li key={href}>
                 <Link href={href} className="flex min-h-11 items-center text-sm font-semibold text-primary-pale hover:text-white hover:underline">

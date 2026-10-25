@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:verificar": "node --env-file=.env.local scripts/verificar-banco.mjs"
+    "db:verificar": "node --env-file=.env.local scripts/verificar-banco.mjs",
+    "db:limpar-testes": "node --env-file=.env.local scripts/limpar-dados-teste.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.1",
